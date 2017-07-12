@@ -20,7 +20,12 @@ Article.prototype.toHtml = function() {
   /* TODO: This cloned article still has a class of template.
   However, in our modules.css stylesheet, we gave all elements
   with a class of template a display of none. Let's make
-  sure we're not accidentally hiding our cloned article! */
+  sure we're not accidentally hiding our cloned article!
+  Estimated time: 10 min
+  Took: 1 hour
+  Jquery dies when we do not remove the class.
+  */
+  $newArticle.removeClass('template');
 
   if (!this.publishedOn) $newArticle.addClass('draft');
   $newArticle.data('category', this.category);
@@ -32,7 +37,15 @@ Article.prototype.toHtml = function() {
     2. author url,
     3. article title,
     4. article body, and
-    5. publication date. */
+    5. publication date.
+
+    Estimated time: 20 min
+    Took: 40min
+    */
+  $newArticle.find('address a').first().text(this.author);
+  $newArticle.find('address').find('a').attr('href', this.authorUrl);
+  $newArticle.find('h1').first().text(this.title);
+  $newArticle.find('.article-body').first().html(this.body);
 
   // Display the date as a relative number of 'days ago'
   $newArticle.find('time').html('about ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
